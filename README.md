@@ -1,1 +1,2 @@
-# theCreaterEditor
+# theCreatorEditor
+theCreatorで使われるエディタ
