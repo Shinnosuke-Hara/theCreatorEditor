@@ -6,12 +6,24 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint --ext .tsx,.ts",
+    "lint:fix": "eslint --fix --ext .tsx,.ts --max-warnings=0",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "yarn lint:fix",
+      "yarn prettier"
+    ]
   },
   "dependencies": {
     "@lexical/react": "^0.6.0",
+    "eslint-config-prettier": "^8.5.0",
     "lexical": "^0.6.0",
     "node-sass": "^8.0.0",
+    "prettier": "^2.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "ress": "^5.0.2",
@@ -20,8 +32,17 @@
   "devDependencies": {
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@vitejs/plugin-react": "^2.2.0",
-    "typescript": "^4.6.4",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.31.11",
+    "husky": "8.0.2",
+    "lint-staged": "13.0.4",
+    "typescript": "*",
     "vite": "^3.2.3"
   }
 }
