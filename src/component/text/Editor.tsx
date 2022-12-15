@@ -1,66 +1,55 @@
-import { $getRoot, $getSelection, EditorState } from "lexical";
-import { useEffect } from "react";
+import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
+import { ContentEditable } from '@lexical/react/LexicalContentEditable'
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
+import { HeadingNode, QuoteNode } from '@lexical/rich-text'
+import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
+import { ListItemNode, ListNode } from '@lexical/list'
+import { CodeHighlightNode, CodeNode } from '@lexical/code'
+import { AutoLinkNode, LinkNode } from '@lexical/link'
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin'
+import { ListPlugin } from '@lexical/react/LexicalListPlugin'
+import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin'
+import { TRANSFORMERS } from '@lexical/markdown'
+import styles from './Editor.module.scss'
 
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+const editorConfig = {
+  namespace: '',
+  onError(error: Error) {
+    throw error
+  },
+  nodes: [
+    HeadingNode,
+    ListNode,
+    ListItemNode,
+    QuoteNode,
+    CodeNode,
+    CodeHighlightNode,
+    TableNode,
+    TableCellNode,
+    TableRowNode,
+    AutoLinkNode,
+    LinkNode,
+  ],
+}
 
 export const Editor = () => {
-  // When the editor changes, you can get notified via the
-  // LexicalOnChangePlugin!
-  function onChange(editorState: EditorState) {
-    editorState.read(() => {
-      // Read the contents of the EditorState here.
-      const root = $getRoot();
-      const selection = $getSelection();
-
-      console.log(root, selection);
-    });
-  }
-
-  // Lexical React plugins are React components, which makes them
-  // highly composable. Furthermore, you can lazy load plugins if
-  // desired, so you don't pay the cost for plugins until you
-  // actually use them.
-  function MyCustomAutoFocusPlugin() {
-    const [editor] = useLexicalComposerContext();
-
-    useEffect(() => {
-      // Focus the editor when the effect fires!
-      editor.focus();
-    }, [editor]);
-
-    return null;
-  }
-
-  // Catch any errors that occur during Lexical updates and log them
-  // or throw them as needed. If you don't throw them, Lexical will
-  // try to recover gracefully without losing user data.
-  const onError = (error: Error) => {
-    console.error(error);
-  };
-
-  const initialConfig = {
-    namespace: "MyEditor",
-    onError,
-  };
-
   return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <PlainTextPlugin
-        contentEditable={<ContentEditable />}
-        placeholder={<div>Enter some text...</div>}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
-      <OnChangePlugin onChange={onChange} />
-      <HistoryPlugin />
-      <MyCustomAutoFocusPlugin />
+    <LexicalComposer initialConfig={editorConfig}>
+      <div className={styles.container}>
+        <RichTextPlugin
+          contentEditable={<ContentEditable className={styles.contentEditable} />}
+          placeholder={<div className={styles.placeholder}>ストーリーを語りましょう</div>}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <HistoryPlugin />
+        <AutoFocusPlugin />
+        <ListPlugin />
+        <LinkPlugin />
+        <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+      </div>
     </LexicalComposer>
-  );
-};
-
-export default Editor;
+  )
+}
