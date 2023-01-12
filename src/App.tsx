@@ -1,11 +1,11 @@
 import React from 'react'
 import 'ress'
-import { Editor } from './component/text/Editor'
+import { UploadThumbnail } from './component/common/UploadThumbnail'
 
 function App() {
   return (
     <div className='App'>
-      <Editor />
+      <UploadThumbnail />
     </div>
   )
 }
