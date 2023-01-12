@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  border-radius: 8px;
+  border: 2px dashed #000000;
+  background-color: #fafafa;
+  color: #000000;
+}
+.input {
+  display: none;
+  &__wrapper {
+    padding: 10px 40px;
+    color: #ffffff;
+    background-color: #ffbc10;
+    border: 2px solid;
+    border-color: #000;
+    cursor: pointer;
+  }
+}
+.text {
+  font-size: 15px;
+  padding-top: 12px;
+}
+.delete {
+  cursor: pointer;
+  color: red;
+  padding: 5px;
+}
+.image {
+  width: 176px;
+  height: 176px;
+  overflow: hidden;
+}
