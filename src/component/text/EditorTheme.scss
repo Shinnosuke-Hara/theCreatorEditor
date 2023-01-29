@@ -1,0 +1,47 @@
+.h1 {
+  font-size: 24px;
+  color: #000000;
+  font-weight: 400;
+  margin: 0;
+}
+.h2 {
+  font-size: 15px;
+  color: #000000;
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+}
+.h3 {
+  font-size: 12px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.textBold {
+  font-weight: bold;
+}
+.textItalic {
+  font-style: italic;
+}
+.textUnderline {
+  text-decoration: underline;
+}
+.textStrikethrough {
+  text-decoration: line-through;
+}
+.textUnderlineStrikethrough {
+  text-decoration: underline line-through;
+}
+.textSubscript {
+  font-size: 0.8em;
+  vertical-align: sub !important;
+}
+.textSuperscript {
+  font-size: 0.8em;
+  vertical-align: super;
+}
+.textCode {
+  background-color: #000000;
+  padding: 1px 0.25rem;
+  font-family: Menlo, Consolas, Monaco, monospace;
+  font-size: 94%;
+}

@@ -14,6 +14,8 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin'
 import { TRANSFORMERS } from '@lexical/markdown'
 import styles from './Editor.module.scss'
+import ToolbarPlugin from './EditorTips'
+import theme from './EditorTheme'
 
 const editorConfig = {
   namespace: '',
@@ -33,11 +35,13 @@ const editorConfig = {
     AutoLinkNode,
     LinkNode,
   ],
+  theme,
 }
 
 export const Editor = () => {
   return (
     <LexicalComposer initialConfig={editorConfig}>
+      <ToolbarPlugin />
       <div className={styles.container}>
         <RichTextPlugin
           contentEditable={<ContentEditable className={styles.contentEditable} />}
