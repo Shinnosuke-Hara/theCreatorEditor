@@ -99,29 +99,27 @@ function BlockFormatDropDown({
 
   return (
     <DropDown disabled={disabled} buttonLabel={blockTypeToBlockName[blockType]}>
-      <div className={styles.tips__wrapper}>
-        <DropDownItem onClick={formatParagraph}>
-          <span>Normal</span>
-        </DropDownItem>
-        <DropDownItem onClick={() => formatHeading('h1')}>
-          <span>Heading 1</span>
-        </DropDownItem>
-        <DropDownItem onClick={() => formatHeading('h2')}>
-          <span>Heading 2</span>
-        </DropDownItem>
-        <DropDownItem onClick={() => formatHeading('h3')}>
-          <span>Heading 3</span>
-        </DropDownItem>
-        <DropDownItem onClick={formatBulletList}>
-          <span>Bullet List</span>
-        </DropDownItem>
-        <DropDownItem onClick={formatNumberedList}>
-          <span>Numbered List</span>
-        </DropDownItem>
-        <DropDownItem onClick={formatCheckList}>
-          <span>Check List</span>
-        </DropDownItem>
-      </div>
+      <DropDownItem onClick={formatParagraph}>
+        <span>Normal</span>
+      </DropDownItem>
+      <DropDownItem onClick={() => formatHeading('h1')}>
+        <span>Heading 1</span>
+      </DropDownItem>
+      <DropDownItem onClick={() => formatHeading('h2')}>
+        <span>Heading 2</span>
+      </DropDownItem>
+      <DropDownItem onClick={() => formatHeading('h3')}>
+        <span>Heading 3</span>
+      </DropDownItem>
+      <DropDownItem onClick={formatBulletList}>
+        <span>Bullet List</span>
+      </DropDownItem>
+      <DropDownItem onClick={formatNumberedList}>
+        <span>Numbered List</span>
+      </DropDownItem>
+      <DropDownItem onClick={formatCheckList}>
+        <span>Check List</span>
+      </DropDownItem>
     </DropDown>
   )
 }

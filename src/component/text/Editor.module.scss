@@ -40,7 +40,8 @@
   &__wrapper {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 100px;
+    transform: translate(15px, -15%);
     display: inline-flex;
     align-items: flex-start;
     flex-direction: column;

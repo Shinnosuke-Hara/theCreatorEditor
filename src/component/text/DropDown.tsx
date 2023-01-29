@@ -106,7 +106,7 @@ function DropDownItems({
 
   return (
     <DropDownContext.Provider value={contextValue}>
-      <div className={styles.tips__container} ref={dropDownRef} onKeyDown={handleKeyDown}>
+      <div className={styles.tips__wrapper} ref={dropDownRef} onKeyDown={handleKeyDown}>
         {children}
       </div>
     </DropDownContext.Provider>
@@ -172,7 +172,7 @@ export default function DropDown({
   }, [dropDownRef, buttonRef, showDropDown, stopCloseOnClickSelf])
 
   return (
-    <div>
+    <div className={styles.tips__container}>
       <button
         disabled={disabled}
         aria-label={buttonLabel}
