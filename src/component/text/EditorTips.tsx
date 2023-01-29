@@ -1,4 +1,15 @@
-import type { ElementNode, LexicalEditor, RangeSelection, TextNode } from 'lexical'
+import {
+  ElementNode,
+  LexicalEditor,
+  RangeSelection,
+  TextNode,
+  $getSelection,
+  $isRangeSelection,
+  $isRootOrShadowRoot,
+  COMMAND_PRIORITY_CRITICAL,
+  DEPRECATED_$isGridSelection,
+  SELECTION_CHANGE_COMMAND,
+} from 'lexical'
 
 import {
   $isListNode,
@@ -8,28 +19,13 @@ import {
   ListNode,
   REMOVE_LIST_COMMAND,
 } from '@lexical/list'
-import { $createHeadingNode, $isHeadingNode, HeadingTagType } from '@lexical/rich-text'
+import { $isHeadingNode, HeadingTagType } from '@lexical/rich-text'
 import { $isAtNodeEnd } from '@lexical/selection'
 import { $findMatchingParent, $getNearestNodeOfType, mergeRegister } from '@lexical/utils'
-import {
-  $createParagraphNode,
-  $getSelection,
-  $isRangeSelection,
-  $isRootOrShadowRoot,
-  COMMAND_PRIORITY_CRITICAL,
-  DEPRECATED_$isGridSelection,
-  SELECTION_CHANGE_COMMAND,
-} from 'lexical'
 import React, { useCallback, useEffect, useState } from 'react'
 import DropDown, { DropDownItem } from './DropDown'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-
-function setBlocksTypeExperimental(
-  selection: import('lexical').RangeSelection | import('lexical').GridSelection,
-  arg1: () => import('lexical').ParagraphNode,
-) {
-  throw new Error('Function not implemented.')
-}
+import styles from './Editor.module.scss'
 
 const blockTypeToBlockName = {
   bullet: 'Bulleted List',
@@ -46,11 +42,6 @@ const blockTypeToBlockName = {
   quote: 'Quote',
 }
 
-function dropDownActiveClass(active: boolean) {
-  if (active) return 'active dropdown-item-active'
-  else return ''
-}
-
 function BlockFormatDropDown({
   editor,
   blockType,
@@ -64,8 +55,9 @@ function BlockFormatDropDown({
     if (blockType !== 'paragraph') {
       editor.update(() => {
         const selection = $getSelection()
-        if ($isRangeSelection(selection) || DEPRECATED_$isGridSelection(selection))
-          setBlocksTypeExperimental(selection, () => $createParagraphNode())
+        if ($isRangeSelection(selection) || DEPRECATED_$isGridSelection(selection)) {
+          //   setBlocksTypeExperimental(selection, () => $createParagraphNode())
+        }
       })
     }
   }
@@ -75,7 +67,7 @@ function BlockFormatDropDown({
       editor.update(() => {
         const selection = $getSelection()
         if ($isRangeSelection(selection) || DEPRECATED_$isGridSelection(selection)) {
-          setBlocksTypeExperimental(selection, () => $createHeadingNode(headingSize))
+          //   setBlocksTypeExperimental(selection, () => $createHeadingNode(headingSize))
         }
       })
     }
@@ -106,34 +98,30 @@ function BlockFormatDropDown({
   }
 
   return (
-    <DropDown
-      disabled={disabled}
-      buttonClassName='toolbar-item block-controls'
-      buttonIconClassName={'icon block-type ' + blockType}
-      buttonLabel={blockTypeToBlockName[blockType]}
-      buttonAriaLabel='Formatting options for text style'
-    >
-      <DropDownItem className={'item ' + dropDownActiveClass(blockType === 'paragraph')} onClick={formatParagraph}>
-        <span className='text'>Normal</span>
-      </DropDownItem>
-      <DropDownItem className={'item ' + dropDownActiveClass(blockType === 'h1')} onClick={() => formatHeading('h1')}>
-        <span className='text'>Heading 1</span>
-      </DropDownItem>
-      <DropDownItem className={'item ' + dropDownActiveClass(blockType === 'h2')} onClick={() => formatHeading('h2')}>
-        <span className='text'>Heading 2</span>
-      </DropDownItem>
-      <DropDownItem className={'item ' + dropDownActiveClass(blockType === 'h3')} onClick={() => formatHeading('h3')}>
-        <span className='text'>Heading 3</span>
-      </DropDownItem>
-      <DropDownItem className={'item ' + dropDownActiveClass(blockType === 'bullet')} onClick={formatBulletList}>
-        <span className='text'>Bullet List</span>
-      </DropDownItem>
-      <DropDownItem className={'item ' + dropDownActiveClass(blockType === 'number')} onClick={formatNumberedList}>
-        <span className='text'>Numbered List</span>
-      </DropDownItem>
-      <DropDownItem className={'item ' + dropDownActiveClass(blockType === 'check')} onClick={formatCheckList}>
-        <span className='text'>Check List</span>
-      </DropDownItem>
+    <DropDown disabled={disabled} buttonLabel={blockTypeToBlockName[blockType]}>
+      <div className={styles.tips__wrapper}>
+        <DropDownItem onClick={formatParagraph}>
+          <span>Normal</span>
+        </DropDownItem>
+        <DropDownItem onClick={() => formatHeading('h1')}>
+          <span>Heading 1</span>
+        </DropDownItem>
+        <DropDownItem onClick={() => formatHeading('h2')}>
+          <span>Heading 2</span>
+        </DropDownItem>
+        <DropDownItem onClick={() => formatHeading('h3')}>
+          <span>Heading 3</span>
+        </DropDownItem>
+        <DropDownItem onClick={formatBulletList}>
+          <span>Bullet List</span>
+        </DropDownItem>
+        <DropDownItem onClick={formatNumberedList}>
+          <span>Numbered List</span>
+        </DropDownItem>
+        <DropDownItem onClick={formatCheckList}>
+          <span>Check List</span>
+        </DropDownItem>
+      </div>
     </DropDown>
   )
 }
@@ -222,9 +210,9 @@ export default function ToolbarPlugin() {
   return (
     <>
       {blockType in blockTypeToBlockName && activeEditor === editor && (
-        <>
+        <div className={styles.formater}>
           <BlockFormatDropDown disabled={!isEditable} blockType={blockType} editor={editor} />
-        </>
+        </div>
       )}
     </>
   )

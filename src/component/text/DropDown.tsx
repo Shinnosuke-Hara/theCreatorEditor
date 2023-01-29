@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import * as React from 'react'
 import { createPortal } from 'react-dom'
+import styles from './Editor.module.scss'
 
 interface DropDownContextType {
   registerItem: (ref: React.RefObject<HTMLButtonElement>) => void
@@ -10,12 +11,10 @@ const DropDownContext = React.createContext<DropDownContextType | null>(null)
 
 export function DropDownItem({
   children,
-  className,
   onClick,
   title,
 }: {
   children: React.ReactNode
-  className: string
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
   title?: string
 }) {
@@ -36,7 +35,7 @@ export function DropDownItem({
   }, [ref, registerItem])
 
   return (
-    <button className={className} onClick={onClick} ref={ref} title={title} type='button'>
+    <button className={styles.tips} onClick={onClick} ref={ref} title={title} type='button'>
       {children}
     </button>
   )
@@ -107,7 +106,7 @@ function DropDownItems({
 
   return (
     <DropDownContext.Provider value={contextValue}>
-      <div className='dropdown' ref={dropDownRef} onKeyDown={handleKeyDown}>
+      <div className={styles.tips__container} ref={dropDownRef} onKeyDown={handleKeyDown}>
         {children}
       </div>
     </DropDownContext.Provider>
@@ -117,17 +116,11 @@ function DropDownItems({
 export default function DropDown({
   disabled = false,
   buttonLabel,
-  buttonAriaLabel,
-  buttonClassName,
-  buttonIconClassName,
   children,
   stopCloseOnClickSelf,
 }: {
   disabled?: boolean
-  buttonAriaLabel?: string
-  buttonClassName: string
-  buttonIconClassName?: string
-  buttonLabel?: string
+  buttonLabel: string
   children: ReactNode
   stopCloseOnClickSelf?: boolean
 }): JSX.Element {
@@ -179,19 +172,15 @@ export default function DropDown({
   }, [dropDownRef, buttonRef, showDropDown, stopCloseOnClickSelf])
 
   return (
-    <>
+    <div>
       <button
         disabled={disabled}
-        aria-label={buttonAriaLabel !== undefined ? buttonAriaLabel : buttonLabel}
-        className={buttonClassName}
+        aria-label={buttonLabel}
         onClick={() => setShowDropDown(!showDropDown)}
         ref={buttonRef}
       >
-        {buttonIconClassName !== undefined && <span className={buttonIconClassName} />}
-        {buttonLabel !== undefined && <span className='text dropdown-button-text'>{buttonLabel}</span>}
-        <i className='chevron-down' />
+        <span className={styles.plus} />
       </button>
-
       {showDropDown &&
         createPortal(
           <DropDownItems dropDownRef={dropDownRef} onClose={handleClose}>
@@ -199,6 +188,6 @@ export default function DropDown({
           </DropDownItems>,
           document.body,
         )}
-    </>
+    </div>
   )
 }
